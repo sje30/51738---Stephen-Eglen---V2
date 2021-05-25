@@ -1,0 +1,53 @@
+\documentclass{article}
+\usepackage[svgnames]{xcolor}
+\usepackage{tikz,pdfpages}
+\usepackage{mathpazo}
+
+
+%% taken from https://tex.stackexchange.com/questions/85651/is-there-are-way-to-annotate-pdfs-with-latex
+\usepackage{tikz}
+
+\tikzset{
+  every node/.style={
+    anchor=mid west,
+  }
+}
+
+\makeatletter
+\pgfkeys{/form field/.code 2 args={\expandafter\global\expandafter\def\csname field@#1\expandafter\endcsname\expandafter{#2}}}
+
+\newcommand{\place}[3][]{\node[#1] at (#2) {\csname field@#3\endcsname};}
+\makeatother
+
+\newcommand{\xmark}[1]{\node at (#1) {X};}
+
+
+\begin{document}
+
+
+
+\includepdf[
+pages=1,clip,trim=0.5cm 6cm 0.5cm 3cm,
+  picturecommand={%
+    \begin{tikzpicture}[remember picture,overlay]
+%%% The next lines draw a useful grid - get rid of them (comment them out) on the final version
+    \draw[gray] (current page.south west) grid (current page.north east);
+\foreach \k in {1,...,28} {
+      \path (current page.south east) ++(-2,\k) node {\k};
+}
+\foreach \k in {1,...,20} {
+      \path (current page.south west) ++(\k,2) node {\k};
+}
+%%% grid code ends here
+\tikzset{every node/.append style={fill=Honeydew,font=\Large}}
+%% \draw (2,25) circle [radius=0.3] node {(A)};
+\draw (0.0,24.5) node {A};
+\draw (0.0,21) node {B};
+\draw (0.0,18) node {C};
+\draw (11,22) node {D};
+\draw (0,11) node {E};
+\draw (11,11) node {F};
+    \end{tikzpicture}
+  }
+]{cert-2020-012-4up.pdf}
+\end{document}
